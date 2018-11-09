@@ -16,6 +16,8 @@ import java.util.*;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
+// Really do not like the approach of Jsoup library
+// to return empty strings instead of Optionals or Nulls.
 public class OkApp {
 
     private final static String DEFAULT_ID = "make-everything-ok-button";
