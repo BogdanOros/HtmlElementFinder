@@ -1,0 +1,29 @@
+group 'io.boros'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+mainClassName = 'io.boros.OkApp'
+
+dependencies {
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jar {
+    baseName = 'okApp'
+    version = null
+    classifier = null
+    manifest {
+        attributes "Main-Class": 'io.boros.OkApp'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
