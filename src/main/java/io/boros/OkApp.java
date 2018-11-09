@@ -90,6 +90,7 @@ public class OkApp {
             return Collections.singletonList(new MatchingResult(elementById, singletonMap("id", id)));
         }
 
+        // TODO: instead of getting elements by tag, parse all tree recursively with ForkJoin
         Elements elementsByTag = doc.getElementsByTag("a");
 
         // To prevent toMap collection and further sorts.
