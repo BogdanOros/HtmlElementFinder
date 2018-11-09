@@ -43,35 +43,26 @@ public class OkApp {
 
 
     private Map<String, String> collectCriteria(File htmlInput, String id) {
-        try {
-            Document doc = Jsoup.parse(htmlInput, ENCODING, htmlInput.getAbsolutePath());
+        Document doc = getDocumentSafe(htmlInput);
 
-            Element element = doc.getElementById(id);
+        Element element = doc.getElementById(id);
 
-            if (element == null) {
-                return emptyMap();
-            }
-
-            Map<String, String> attributes = new HashMap<>();
-            for (Attribute attribute : element.attributes()) {
-                attributes.put(attribute.getKey(), attribute.getValue());
-            }
-
-            attributes.put("text", element.text());
-
-            return attributes;
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Error during opening input file. Exiting");
+        if (element == null) {
+            return emptyMap();
         }
+
+        Map<String, String> attributes = new HashMap<>();
+        for (Attribute attribute : element.attributes()) {
+            attributes.put(attribute.getKey(), attribute.getValue());
+        }
+
+        attributes.put("text", element.text());
+
+        return attributes;
     }
 
     private Collection<MatchingResult> searchSimilarElements(File file, Map<String, String> criteria, String id) {
-        Document doc;
-        try {
-            doc = Jsoup.parse(file, ENCODING);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Error during opening output file. Exiting");
-        }
+        Document doc = getDocumentSafe(file);
 
         Element elementById = doc.getElementById(id);
 
@@ -113,6 +104,14 @@ public class OkApp {
             }
         }
         return matchedElements;
+    }
+
+    private Document getDocumentSafe(File file) {
+        try {
+            return Jsoup.parse(file, ENCODING);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error during opening " + file.getName() + "  file. Exiting");
+        }
     }
 
 
