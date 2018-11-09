@@ -7,4 +7,5 @@ Tutorial (from project root):
 2) java -jar okApp.jar sample-0-origin.html sample-1-evil-gemini.html
 
 You may pass an additional parameter as an element **id** to search.
+
 java -jar okApp.jar sample-0-origin.html sample-1-evil-gemini.html make-everything-ok-button
