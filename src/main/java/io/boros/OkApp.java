@@ -42,7 +42,17 @@ public class OkApp {
     }
 
 
+    /**
+     * collectCriteria returns a map of searching criteria to search in modified files.
+     *
+     * @param htmlInput - the input (original, not-changed) file.
+     * @param id        - searched element id.
+     * @return a map of attributes to serve as criteria
+     */
     private Map<String, String> collectCriteria(File htmlInput, String id) {
+        Objects.requireNonNull(htmlInput);
+        Objects.requireNonNull(id);
+
         Document doc = getDocumentSafe(htmlInput);
 
         Element element = doc.getElementById(id);
@@ -61,7 +71,16 @@ public class OkApp {
         return attributes;
     }
 
+    /**
+     * Searches similar elements matching to criteria from provided file.
+     * Returns a collection of matching results, which contains
+     * all matched elements and explanations about matching decisions (via criteria and criteria intersections).
+     */
     private Collection<MatchingResult> searchSimilarElements(File file, Map<String, String> criteria, String id) {
+        Objects.requireNonNull(file);
+        Objects.requireNonNull(criteria);
+        Objects.requireNonNull(id);
+
         Document doc = getDocumentSafe(file);
 
         Element elementById = doc.getElementById(id);
@@ -115,9 +134,19 @@ public class OkApp {
     }
 
 
+    /**
+     * Prints all matches to an output stream.
+     *
+     * @param outputStream    - stream to write matching results (File, Connection stream, Logger etc)
+     * @param matchingResults - a collection of matches
+     */
     private void printMatches(OutputStream outputStream, Collection<MatchingResult> matchingResults) {
+        Objects.requireNonNull(outputStream);
+        Objects.requireNonNull(matchingResults);
+
         PrintWriter printWriter = new PrintWriter(outputStream);
 
+        // Working with iterator to allow working with Collection<> interface instead of high-level implementations
         Iterator<MatchingResult> iter = matchingResults.iterator();
 
         if (matchingResults.isEmpty()) {
